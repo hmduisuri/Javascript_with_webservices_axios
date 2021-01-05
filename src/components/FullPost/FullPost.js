@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios'
+// import axios from 'axios';
+import axios from '../../axios'
 import './FullPost.css';
 
 class FullPost extends Component {
@@ -10,7 +11,8 @@ class FullPost extends Component {
 componentDidUpdate ()  {
     if(this.props.id) {
         if(!this.state.loadedPosts || (this.state.loadedPosts && this.state.loadedPosts.id !== this.props.id)) {
-            axios.get('https://jsonplaceholder.typicode.com/posts/' + this.props.id)
+            //full url is set on index.html as default or axios.js file
+            axios.get('/posts/' + this.props.id)
             .then(response => {
                 this.setState({loadedPosts: response.data})
                 // console.log(response);
@@ -19,14 +21,17 @@ componentDidUpdate ()  {
     }
 }
     deletePostHandler = ()  => {
-        axios.delete('https://jsonplaceholder.typicode.com/posts/' + this.props.id)
+        axios.delete('/posts/' + this.props.id)
         .then(response => {
             console.log(response);
         });
     }
 
     render () {
-        let post = <p style = {{textAlign: 'center'}}>Please select a Post!</p>;
+        let post = '';
+        if(!this.props.errorOccured){
+            post = <p style = {{textAlign: 'center'}}>Please select a Post!</p>;
+        }
         if(this.props.id) {
             post = <p style = {{textAlign: 'center'}}>Loading...!</p>;
         }

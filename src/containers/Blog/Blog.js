@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 import Post from '../../components/Post/Post';
 import FullPost from '../../components/FullPost/FullPost';
 import NewPost from '../../components/NewPost/NewPost';
 import './Blog.css';
 
+// import axios from 'axios';
+import axios from '../../axios'
+
 class Blog extends Component {
-    state = {
+state = {
         posts: [],
         selectedPostId: null,
         errorOccured: false
     }
 componentDidMount (){
-    axios.get('https://jsonplaceholder.typicode.com/posts').then(response => {
+    axios.get('/posts').then(response => {
         const posts = response.data.slice(0,4);
         const updatedPosts = posts.map(post => {
             return {
@@ -49,7 +51,7 @@ postSelectedHandler = (id) => {
                     {posts}
                 </section>
                 <section>
-                    <FullPost id = {this.state.selectedPostId}/>
+                    <FullPost id = {this.state.selectedPostId} errorOccured = {this.state.errorOccured}/>
                 </section>
                 <section>
                     <NewPost />
