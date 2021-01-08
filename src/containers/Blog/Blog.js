@@ -1,61 +1,45 @@
 import React, { Component } from 'react';
-
-import Post from '../../components/Post/Post';
-import FullPost from '../../components/FullPost/FullPost';
-import NewPost from '../../components/NewPost/NewPost';
 import './Blog.css';
-
+import Posts from './Posts/Posts';
+//nav link is used to style active link in various ways : and 'active' class is te default classname of it . if you want to change, change asa below
+import {Route, NavLink, Switch, Redirect} from 'react-router-dom';
+import NewPost from './NewPost/NewPost';
+// import FullPost from './FullPost/FullPost';
 // import axios from 'axios';
-import axios from '../../axios'
+// import axios from '../../axios'
 
 class Blog extends Component {
-state = {
-        posts: [],
-        selectedPostId: null,
-        errorOccured: false
-    }
-componentDidMount (){
-    axios.get('/posts').then(response => {
-        const posts = response.data.slice(0,4);
-        const updatedPosts = posts.map(post => {
-            return {
-                ...post,
-                author: 'Max'
-            }
-        });
-        this.setState({posts: updatedPosts});
-        console.log(response)
-    })
-    .catch(error => {
-        this.setState({errorOccured: true})
-    });
-}
-
-postSelectedHandler = (id) => {
-    this.setState({selectedPostId: id});
-}
 
     render () {
-       
-        let posts = <p style = {{textAlign: 'center'}}>Oopss...! Something went wrong!</p>
-        if(!this.state.errorOccured) {
-          posts = this.state.posts.map(post => {
-    return <Post key = {post.id} title = {post.title} author = {post.author} clicked = {() => this.postSelectedHandler(post.id)}/>;
-            });  
-        }
-
-
         return (
-            <div>
-                <section className="Posts">
-                    {posts}
-                </section>
-                <section>
-                    <FullPost id = {this.state.selectedPostId} errorOccured = {this.state.errorOccured}/>
-                </section>
-                <section>
-                    <NewPost />
-                </section>
+            <div className = "Blog">
+                <header>
+                    <nav>
+                        <ul>
+                            <li><NavLink to = "/posts" 
+                            exact
+                            activeClassName = "my-active"
+                            activeStyle= {{
+                                color: "#744179",
+                                textDecoration: "underline",
+                                fontWeight: "bold"
+                            }}>POSTS</NavLink></li>
+                            {/* new post is on normal active class */}
+                            <li><NavLink to = {{
+                                pathname: "/new-post",
+                                hash:"#submit",
+                                search:"?quick-submit=true"
+                                }}>NEW POST</NavLink> </li>
+                        </ul>
+                    </nav>
+                </header>
+                {/* exact is used to path which is only localhost:8080/ 'for / only' */}
+                {/* in this case page is re-loading not rendering part of the dom */}
+                <Switch>
+                <Route path = "/new-post" component = {NewPost}/>
+                <Route path = "/posts"  component = {Posts}/>    
+                <Redirect from = "/" to = "/posts"/>
+                </Switch>
             </div>
         );
     }

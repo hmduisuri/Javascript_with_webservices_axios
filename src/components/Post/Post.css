@@ -2,7 +2,7 @@
     width: 200px;
     padding: 16px;
     text-align: center;
-    border: 1px solid #eee;
+    border: 1px solid #d6d1d1;
     box-shadow: 0 2px 3px #ccc;
     margin: 10px;
     box-sizing: border-box;
@@ -11,10 +11,10 @@
 
 .Post:hover,
 .Post:active {
-    background-color: #C0DDF5;
+    background-color: #ebc0c0;
 }
 
 .Author {
     margin: 16px 0;
-    color: #ccc;
+    color: #8f6a8c;
 }

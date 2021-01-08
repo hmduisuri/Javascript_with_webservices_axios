@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import axios from 'axios';
-import axios from '../../axios'
+import axios from '../../../axios';
 import './NewPost.css';
 
 class NewPost extends Component {
@@ -20,7 +20,10 @@ class NewPost extends Component {
         axios.post('/posts', postData)
         .then(response => {
             console.log(response);
+            this.props.history.push('/posts');
+            // this.props.history.replace('/posts'); -- this method is replasing the historypage (newpost page)
         });
+
     }
 
     render () {
